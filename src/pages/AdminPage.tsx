@@ -3,9 +3,13 @@ import ResponsiveAppBar from "../components/Navbar";
 
 function AdminPage() {
   return (
-    <div>
+    <div className="w-100 bg-[#F0EBF8]">
       <ResponsiveAppBar />
-      <Outlet />
+      <div className="container w-full text-center  min-h-screen">
+        <div className="flex justify-center">
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 }
