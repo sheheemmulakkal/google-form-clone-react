@@ -51,7 +51,7 @@ const FormBody: React.FC<{
   };
   return (
     <>
-      <div className="bg-white rounded-md py-4 flex-col mt-8 border-s-[6px] border-s-[#4285F4]">
+      <div className="bg-white rounded-md py-4 flex-col mt-8 border-s-[6px] border-s-[#4285F4] shadow-md">
         <div className="flex-row">
           <div className="w-full grid  grid-cols-3">
             <div className="col-span-2 px-3 w-full">

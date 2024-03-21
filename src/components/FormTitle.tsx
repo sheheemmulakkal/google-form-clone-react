@@ -7,12 +7,13 @@ interface FormTitleProps {
 
 const FormTitle: React.FC<FormTitleProps> = ({ title, setTitle }) => {
   return (
-    <div className=" bg-white rounded-md py-6 mt-8 border-t-8 border-t-[#673AB7]">
+    <div className=" bg-white rounded-md py-6 mt-8 border-t-8 border-t-[#673AB7] shadow-md">
       <div className="flex px-5 flex-col">
         <input
           type="text"
           onChange={(e) => setTitle(e.target.value)}
           className="h-16 text-4xl font-medium outline-none w-full"
+          placeholder="Enter title"
           value={title}
         />
         <input

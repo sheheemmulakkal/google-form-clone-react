@@ -6,7 +6,7 @@ function AdminPage() {
     <div className="w-100 bg-[#F0EBF8]">
       <ResponsiveAppBar />
       <div className="container w-full text-center  min-h-screen">
-        <div className="flex justify-center">
+        <div className="flex justify-center pb-10">
           <Outlet />
         </div>
       </div>
