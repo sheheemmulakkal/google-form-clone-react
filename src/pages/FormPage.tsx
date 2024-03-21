@@ -13,6 +13,20 @@ function FormPage() {
   const [title, setTitle] = useState<string>("Untitled Form");
   const [fields, setFields] = useState<InputTypes[]>([]);
 
+  const copyHandler = (i: number) => {
+    setFields((prev) => {
+      const copy = { ...prev[i] };
+      const nextIndex = i + 1;
+      const updatedFields = [
+        ...prev.slice(0, nextIndex),
+        copy,
+        ...prev.slice(nextIndex),
+      ];
+
+      return updatedFields;
+    });
+  };
+
   const typeChangeHandler = (i: number, inputItem: string) => {
     setFields((prevFields) => {
       return prevFields.map((item, index) => {
@@ -34,6 +48,14 @@ function FormPage() {
           };
         }
         return item;
+      });
+    });
+  };
+
+  const deleteHandler = (index: number) => {
+    setFields((prev) => {
+      return prev.filter((_item, i) => {
+        return i !== index;
       });
     });
   };
@@ -78,7 +100,6 @@ function FormPage() {
   return (
     <div className="sm:w-full lg:max-w-[60%]">
       <FormTitle title={title} setTitle={setTitle} />
-      impor
       {fields &&
         fields.map((item, index) => (
           <h1>
@@ -90,6 +111,8 @@ function FormPage() {
               optionHandler={optionHandler}
               questionHandler={questionHandler}
               optionRemoveHandler={optionRemoveHandler}
+              deleteHandler={deleteHandler}
+              copyHandler={copyHandler}
             />
           </h1>
         ))}
