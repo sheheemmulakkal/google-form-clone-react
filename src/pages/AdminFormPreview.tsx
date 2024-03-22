@@ -1,10 +1,21 @@
 import { useLocation } from "react-router-dom";
 import { FormType } from "../types/CreateForm";
 import AdminPreviewComponent from "../components/AdminPreviewComponent";
+import { useState } from "react";
 
 const AdminFormPreview = () => {
   const locatoin = useLocation();
   const form = locatoin.state.form as FormType;
+  const [status, setStatus] = useState(false);
+  const copyHandler = () => {
+    navigator.clipboard.writeText(
+      `${import.meta.env.VITE_APP_CLIENT_URL}?id=${form._id}`
+    );
+    setStatus(true);
+    setTimeout(() => {
+      setStatus(false);
+    }, 2000);
+  };
   return (
     <div className="sm:w-full lg:max-w-[60%]">
       <div className=" bg-white rounded-md py-6 mt-8 border-t-8 border-t-[#673AB7] shadow-md">
@@ -46,6 +57,14 @@ const AdminFormPreview = () => {
             )}
           </div>
         ))}
+      <div
+        className="rounded-md py-1 mt-6 flex-col border font-semibold bg-[#673AB7] text-white"
+        onClick={copyHandler}
+      >
+        <button>
+          {!status ? "Click to copy the form link" : "Copied to clipboard"}
+        </button>
+      </div>
     </div>
   );
 };

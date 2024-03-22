@@ -8,6 +8,9 @@ import AdminAuth from "./pages/AdminAuth";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthProtected from "./components/AuthProtected";
 import AdminFormPreview from "./pages/AdminFormPreview";
+import UserForm from "./pages/UserForm";
+import Success from "./pages/Success";
+import Home from "./pages/Home";
 
 function App() {
   return (
@@ -32,6 +35,9 @@ function App() {
             element={<AuthProtected element={<AdminAuth page="signup" />} />}
           />
         </Route>
+        <Route path="/form" element={<UserForm />} />
+        <Route path="/form-success" element={<Success />} />
+        <Route path="*" element={<Home />} />
       </Routes>
     </div>
   );
