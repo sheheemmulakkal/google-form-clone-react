@@ -2,6 +2,10 @@ import axios, { AxiosInstance, AxiosError } from "axios";
 
 const BASE_URL = import.meta.env.VITE_APP_SERVER_URL;
 
+interface ErrorResponse {
+  message: string;
+}
+
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
 });
@@ -36,6 +40,22 @@ axiosAuthorized.interceptors.response.use(
         // axiosError.response.data.errors
       ) {
         return error.message;
+      } else {
+        return Promise.reject("An unexpected error occurred.");
+      }
+    } else {
+      return Promise.reject("An unexpected error occurred.");
+    }
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error: AxiosError<ErrorResponse>) => {
+    if (axios.isAxiosError(error)) {
+      const axiosError = error;
+      if (axiosError.response && axiosError.response.data) {
+        return Promise.reject(error?.response?.data.message);
       } else {
         return Promise.reject("An unexpected error occurred.");
       }

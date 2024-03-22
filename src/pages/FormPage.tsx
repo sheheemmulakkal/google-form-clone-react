@@ -3,6 +3,7 @@ import FormTitle from "../components/FormTitle";
 import FormBody from "../components/FormBody";
 import { adminCreateForm } from "../api/adminApi";
 import { createFormValidation } from "../validation/createFormValidation";
+import { useNavigate } from "react-router-dom";
 
 interface InputTypes {
   type: string;
@@ -25,6 +26,7 @@ function FormPage() {
   const [fields, setFields] = useState<InputTypes[]>([]);
   const [err, setErr] = useState<string>("");
 
+  const navigate = useNavigate();
   const errorClear = () => {
     setErr("");
   };
@@ -130,6 +132,7 @@ function FormPage() {
     const result = createFormValidation(data);
     if (result?.status) {
       await adminCreateForm(data);
+      navigate("/admin");
     } else {
       setErr(result?.message || "Some error occured");
     }

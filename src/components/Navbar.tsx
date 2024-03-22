@@ -13,9 +13,13 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import Logo from "../assets/Logo.png";
+import { userActions } from "../redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { RootState } from "../redux/store";
 
 const pages = ["Form", "Response"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Logout"];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -39,6 +43,15 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const user = useSelector((store: RootState) => store.user.user);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const logoutHandler = () => {
+    localStorage.removeItem("token");
+    dispatch(userActions.userLogout());
+    navigate("/admin/login");
+  };
 
   return (
     <AppBar position="static" sx={{ bgcolor: "white" }}>
@@ -60,14 +73,14 @@ function ResponsiveAppBar() {
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
+              fontFamily: "sans-serif",
               fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
+              letterSpacing: ".1rem",
+              color: "black",
               textDecoration: "none",
             }}
           >
-            LOGO
+            Google Form
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -119,53 +132,68 @@ function ResponsiveAppBar() {
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "inherit",
+              color: "black",
               textDecoration: "none",
             }}
           >
-            LOGO
+            Google Form
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "#7346BA", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
+          {user && (
+            <Box
+              sx={{
+                flexGrow: 1,
+                alignItems: "center",
+                display: { xs: "none", md: "flex" },
               }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
+              {pages.map((page) => (
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{
+                    my: 2,
+                    color: "#7346BA",
+                    display: "block",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {page}
+                </Button>
               ))}
-            </Menu>
-          </Box>
+            </Box>
+          )}
+
+          {user && (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={logoutHandler}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

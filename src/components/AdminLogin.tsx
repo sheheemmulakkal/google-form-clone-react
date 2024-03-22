@@ -29,7 +29,7 @@ const AdminLogin = () => {
       const response = await adminLogin(email, password);
       if (response) {
         dispatch(userActions.saveUser({ email }));
-        navigate("/admin/create-form");
+        navigate("/admin");
       }
     } catch (error) {
       setErr(error as string);

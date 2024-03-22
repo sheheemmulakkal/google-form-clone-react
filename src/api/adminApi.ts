@@ -1,13 +1,13 @@
 import { FormType } from "../types/CreateForm";
-import { axiosInstance } from "./config";
+import { axiosInstance, axiosAuthorized } from "./config";
 
 // import axios from "axios";
 
 const adminCreateForm = async (formData: FormType) => {
   try {
-    await axiosInstance.post("/admin/submit-form", formData);
+    await axiosAuthorized.post("/admin/submit-form", formData);
   } catch (error) {
-    return error;
+    return Promise.reject(error);
   }
 };
 
@@ -22,7 +22,7 @@ const adminLogin = async (email: string, password: string) => {
       return response.data;
     }
   } catch (error) {
-    return error;
+    return Promise.reject(error);
   }
 };
 
@@ -37,7 +37,7 @@ const adminSignup = async (email: string, password: string) => {
       return response.data;
     }
   } catch (error) {
-    return error;
+    return Promise.reject(error);
   }
 };
 export { adminCreateForm, adminLogin, adminSignup };
